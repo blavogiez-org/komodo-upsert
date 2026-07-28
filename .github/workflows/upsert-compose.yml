@@ -1,0 +1,46 @@
+name: Komodo Compose stack upsert
+
+on:
+  workflow_call:
+    inputs:
+      compose_path:
+        required: true
+        type: string
+      action:
+        required: true
+        type: string
+    secrets:
+      KOMODO_API_KEY:
+        required: true
+      KOMODO_API_SECRET:
+        required: true
+      KOMODO_SERVER:
+        required: true
+      KOMODO_GIT_ACCOUNT:
+        required: true
+
+jobs:
+  komodo:
+    runs-on: self-hosted
+    concurrency:
+      group: komodo-${{ github.repository }}
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: blavogiez-org/komodo-upsert
+          path: action-repo
+      
+      - uses: actions/setup-node@V27
+
+      - name: Run main
+        working-directory: action-repo
+        run: make run
+        env:
+          KOMODO_API_KEY: ${{ secrets.KOMODO_API_KEY }}
+          KOMODO_API_SECRET: ${{ secrets.KOMODO_API_SECRET }}
+          KOMODO_SERVER: ${{ secrets.KOMODO_SERVER }}
+          KOMODO_GIT_ACCOUNT: ${{ secrets.KOMODO_GIT_ACCOUNT }}
+          KOMODO_ACTION: ${{ inputs.action }}
+          CALLER_REPO: ${{ github.repository }}
+          COMPOSE_PATH: ${{ inputs.compose_path }}
