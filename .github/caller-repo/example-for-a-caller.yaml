@@ -1,0 +1,21 @@
+name: Komodo Compose stack upsert (with manual delete)
+
+on:
+  push:
+    branches: [main]
+
+  workflow_dispatch:
+    # manual job destroy available
+    inputs:
+      action:
+        type: choice
+        options: [deploy, destroy]
+        default: deploy
+
+jobs:
+  komodo:
+    uses: blavogiez-org/komodo-upsert/.github/workflows/upsert-compose.yml@v1
+    with:
+      compose_path: deploy/docker-compose.yml
+      action: ${{ inputs.action || 'deploy' }}
+    secrets: inherit
