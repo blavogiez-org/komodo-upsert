@@ -16,8 +16,6 @@ on:
         required: true
       KOMODO_SERVER:
         required: true
-      KOMODO_GIT_ACCOUNT:
-        required: true
 
 jobs:
   komodo:
@@ -31,7 +29,7 @@ jobs:
           repository: blavogiez-org/komodo-upsert
           path: action-repo
       
-      - uses: actions/setup-node@V27
+      - uses: actions/setup-node@v4
 
       - name: Run main
         working-directory: action-repo
@@ -40,7 +38,6 @@ jobs:
           KOMODO_API_KEY: ${{ secrets.KOMODO_API_KEY }}
           KOMODO_API_SECRET: ${{ secrets.KOMODO_API_SECRET }}
           KOMODO_SERVER: ${{ secrets.KOMODO_SERVER }}
-          KOMODO_GIT_ACCOUNT: ${{ secrets.KOMODO_GIT_ACCOUNT }}
           KOMODO_ACTION: ${{ inputs.action }}
           CALLER_REPO: ${{ github.repository }}
           COMPOSE_PATH: ${{ inputs.compose_path }}

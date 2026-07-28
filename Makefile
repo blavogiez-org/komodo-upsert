@@ -1,3 +1,3 @@
 run:
-	npm install
+	npm ci
 	npx tsx main.ts

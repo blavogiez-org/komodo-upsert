@@ -1,4 +1,4 @@
-name: Komodo Compose stack upsert (with manual delete)
+name: "Call example : Komodo Compose stack upsert (with manual delete)"
 
 on:
   push:
@@ -14,7 +14,7 @@ on:
 
 jobs:
   komodo:
-    uses: blavogiez-org/komodo-upsert/.github/workflows/upsert-compose.yml@v1
+    uses: blavogiez-org/komodo-upsert/.github/workflows/upsert-compose.yml@main
     with:
       compose_path: docker-compose.yml
       action: ${{ inputs.action || 'deploy' }}
