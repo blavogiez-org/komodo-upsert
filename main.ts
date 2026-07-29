@@ -7,7 +7,7 @@ if (!("localStorage" in globalThis)) {
 
 const { KomodoClient } = await import("komodo_client");
 
-const endpoint = "https://komodo.priv.blavogiez.fr"
+const endpoint = "http://172.16.10.11:9120"
 const komodo = KomodoClient(endpoint, {
   type: "api-key",
   params: {
