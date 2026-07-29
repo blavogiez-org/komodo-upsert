@@ -22,25 +22,29 @@ const headCommit = process.env.HEAD_COMMIT;
 const stackName = repository.replace("/", "--");
 const server = process.env.KOMODO_SERVER;
 const action = process.env.KOMODO_ACTION;
-const stack = await komodo.getStack(stackName);
+const stacks = await komodo.read("ListStacks", {});
+const stack = stacks.find((item) => item.name === stackName);
 
 if(action == "deploy") {
     if (!stack) {
-        await komodo.createStack({
+        await komodo.write("CreateStack", {
             name: stackName,
             config: {
-            server: server,
+            server_id: server,
             repo: repository,
             commit: headCommit,
             file_paths: [composePath]
             },
         });
     } else {
-        await komodo.updateStack(stack.id, {
-            server: server,
-            repo: repository,
-            commit: headCommit,
-            file_paths: [composePath]
+        await komodo.write("UpdateStack", {
+            id: stack.id,
+            config: {
+                server_id: server,
+                repo: repository,
+                commit: headCommit,
+                file_paths: [composePath]
+            }
         });
     }
 
@@ -48,5 +52,7 @@ if(action == "deploy") {
     stack: stackName,
     });
 } else if (action == "destroy") {
-    await komodo.deleteStack(stack.id);
+    if (stack) {
+        await komodo.write("DeleteStack", { id: stack.id });
+    }
 }
