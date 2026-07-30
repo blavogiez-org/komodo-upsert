@@ -26,8 +26,10 @@ jobs:
     with:
       compose_path: docker-compose.yml
       action: ${{ inputs.action || 'deploy' }}
-      git_account: ${{ inputs.git_account || vars.KOMODO_GIT_ACCOUNT }}
-      komodo_endpoint: ${{ inputs.komodo_endpoint || vars.KOMODO_ENDPOINT }}
+      git_account: ${{ inputs.git_account || "blavogiez" }}
+      komodo_endpoint: ${{ inputs.komodo_endpoint || "https://komodo.priv.blavogiez.fr" }}
+      # git_account: ${{ inputs.git_account || vars.KOMODO_GIT_ACCOUNT }}
+      # komodo_endpoint: ${{ inputs.komodo_endpoint || vars.KOMODO_ENDPOINT }}
     secrets:
       KOMODO_API_KEY: ${{ secrets.KOMODO_API_KEY }}
       KOMODO_API_SECRET: ${{ secrets.KOMODO_API_SECRET }}
