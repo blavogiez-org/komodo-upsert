@@ -7,7 +7,7 @@ if (!("localStorage" in globalThis)) {
 
 const { KomodoClient } = await import("komodo_client");
 
-const endpoint = "http://172.16.10.11:9120"
+const endpoint = process.env.KOMODO_ENDPOINT;
 const komodo = KomodoClient(endpoint, {
   type: "api-key",
   params: {
@@ -21,6 +21,7 @@ const composePath = process.env.COMPOSE_PATH;
 const headCommit = process.env.HEAD_COMMIT;
 const stackName = repository.replace("/", "--");
 const server = process.env.KOMODO_SERVER;
+const gitAccount = process.env.KOMODO_GIT_ACCOUNT;
 const action = process.env.KOMODO_ACTION;
 const stacks = await komodo.read("ListStacks", {});
 const stack = stacks.find((item) => item.name === stackName);
@@ -31,6 +32,7 @@ if(action == "deploy") {
             name: stackName,
             config: {
             server_id: server,
+            git_account: gitAccount,
             repo: repository,
             commit: headCommit,
             file_paths: [composePath]
@@ -41,6 +43,7 @@ if(action == "deploy") {
             id: stack.id,
             config: {
                 server_id: server,
+                git_account: gitAccount,
                 repo: repository,
                 commit: headCommit,
                 file_paths: [composePath]

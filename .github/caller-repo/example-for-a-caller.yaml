@@ -11,6 +11,14 @@ on:
         type: choice
         options: [deploy, destroy]
         default: deploy
+      git_account:
+        description: Git account configured in Komodo
+        required: true
+        type: string
+      komodo_endpoint:
+        description: Komodo API endpoint
+        required: true
+        type: string
 
 jobs:
   komodo:
@@ -18,4 +26,6 @@ jobs:
     with:
       compose_path: docker-compose.yml
       action: ${{ inputs.action || 'deploy' }}
+      git_account: ${{ inputs.git_account || vars.KOMODO_GIT_ACCOUNT }}
+      komodo_endpoint: ${{ inputs.komodo_endpoint || vars.KOMODO_ENDPOINT }}
     secrets: inherit

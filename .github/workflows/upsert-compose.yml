@@ -9,6 +9,14 @@ on:
       action:
         required: true
         type: string
+      git_account:
+        description: Git account configured in Komodo
+        required: true
+        type: string
+      komodo_endpoint:
+        description: Komodo API endpoint
+        required: true
+        type: string
     secrets:
       KOMODO_API_KEY:
         required: true
@@ -42,6 +50,8 @@ jobs:
           KOMODO_API_KEY: ${{ secrets.KOMODO_API_KEY }}
           KOMODO_API_SECRET: ${{ secrets.KOMODO_API_SECRET }}
           KOMODO_SERVER: ${{ secrets.KOMODO_SERVER }}
+          KOMODO_ENDPOINT: ${{ inputs.komodo_endpoint }}
+          KOMODO_GIT_ACCOUNT: ${{ inputs.git_account }}
           KOMODO_ACTION: ${{ inputs.action }}
           CALLER_REPO: ${{ github.repository }}
           COMPOSE_PATH: ${{ inputs.compose_path }}
