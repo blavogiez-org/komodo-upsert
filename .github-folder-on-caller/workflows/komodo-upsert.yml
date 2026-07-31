@@ -1,3 +1,4 @@
+# https://github.com/blavogiez-org/komodo-upsert
 name: "Call example : Komodo Compose stack upsert (with manual delete)"
 
 on:
@@ -12,25 +13,25 @@ on:
         options: [deploy, destroy]
         default: deploy
       git_account:
-        description: Git account configured in Komodo
-        required: true
+        description: Git account configured in Komodo (PAT Token, check original repo doc)
+        required: false
         type: string
       komodo_endpoint:
-        description: Komodo API endpoint
-        required: true
+        description: Komodo API endpoint (if it is isolated, use a self-hosted runner)
+        required: false
         type: string
 
 jobs:
   komodo:
     uses: blavogiez-org/komodo-upsert/.github/workflows/upsert-compose.yml@main
     with:
-      compose_path: docker-compose.yml
+      compose_path: 'docker-compose.traefik.yml'
       action: ${{ inputs.action || 'deploy' }}
-      git_account: ${{ inputs.git_account || "blavogiez" }}
-      komodo_endpoint: ${{ inputs.komodo_endpoint || "https://komodo.priv.blavogiez.fr" }}
+      git_account: ${{ inputs.git_account || 'blavogiez' }}
+      komodo_endpoint: ${{ inputs.komodo_endpoint || 'https://komodo.priv.blavogiez.fr' }}
       # git_account: ${{ inputs.git_account || vars.KOMODO_GIT_ACCOUNT }}
       # komodo_endpoint: ${{ inputs.komodo_endpoint || vars.KOMODO_ENDPOINT }}
     secrets:
       KOMODO_API_KEY: ${{ secrets.KOMODO_API_KEY }}
       KOMODO_API_SECRET: ${{ secrets.KOMODO_API_SECRET }}
-      KOMODO_SERVER: ${{ secrets.KOMODO_SERVER }}
+      KOMODO_SERVER: ${{ vars.KOMODO_SERVER }}

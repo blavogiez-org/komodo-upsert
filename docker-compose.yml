@@ -1,4 +1,0 @@
-# exemple simple 
-services:
-  nginx:
-    image: nginx
