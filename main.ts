@@ -26,8 +26,12 @@ const action = process.env.KOMODO_ACTION;
 const stacks = await komodo.read("ListStacks", {});
 const stack = stacks.find((item) => item.name === stackName);
 
+console.log(stackName);
+console.log(stacks);
+console.log(stack)
 if(action == "deploy") {
     if (!stack) {
+        console.log("CreateStack");
         await komodo.write("CreateStack", {
             name: stackName,
             config: {
@@ -39,6 +43,7 @@ if(action == "deploy") {
             },
         });
     } else {
+        console.log("UpdateStack");
         await komodo.write("UpdateStack", {
             id: stack.id,
             config: {
